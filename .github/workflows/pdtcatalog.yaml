@@ -19,16 +19,16 @@ jobs:
       - name: Setup Go 1.22
         uses: actions/setup-go@v2
         with:
-          go_version: 1.22
+          go-version: 1.22
 
       - name: Build the code
-        runs: |
+        run: |
           cd src/product-catalog
           go mod download
           go build -o product-catalog-service main.go
 
       - name: Tests
-        runs: |
+        run: |
           cd src/product-catalog
           go test ./...
 
@@ -58,7 +58,7 @@ jobs:
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/product-catalog:${{github.run_id}}
 
-  update K8s:
+  update_K8s:
     runs-on: ubuntu-latest
 
     needs: docker
@@ -67,7 +67,7 @@ jobs:
       - name: checkout the code
         uses: actions/checkout@v4
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.G_TOKEN}}
 
       - name: update the deployment
         run: |
